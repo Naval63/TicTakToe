@@ -4,7 +4,9 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "node_modules/.bin/babel src/js --out-dir dist",
+    "babel:watch": "node_modules/.bin/gulp babel:watch"
   },
   "repository": {
     "type": "git",
@@ -18,10 +20,18 @@
   },
   "homepage": "https://github.com/Naval63/TicTakToe#readme",
   "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-sass": "^4.0.2"
   },
   "dependencies": {
+    "core-js": "^3.6.4",
     "node-sass": "^4.13.1"
   }
 }
