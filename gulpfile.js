@@ -1,28 +1,32 @@
 'use strict';
-
-var gulp = require('gulp');
-var sass = require('gulp-sass');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
 const babel = require('gulp-babel');
+const path = require('path');
 sass.compiler = require('node-sass');
-const jsSrcPath = 'src/js/**/*.js';
 
-gulp.task('sass', function () {
-  return gulp.src('./sass/**/*.scss')
+const jsSrcPath = path.resolve(__dirname, 'src/js/**/*.js');
+const distPath = path.resolve(__dirname, 'dist');
+const scssPath = path.resolve(__dirname, 'sass/**/*.scss');
+
+gulp.task('sass', () => {
+  return gulp.src(path.resolve(scssPath))
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./css'));
+    .pipe(gulp.dest(path.join(distPath, 'css')));
 });
 
-gulp.task('sass:watch', function () {
-  gulp.watch('./sass/**/*.scss', gulp.parallel('sass'));
-});
+gulp.task('sass:watch', () => gulp.watch(scssPath, gulp.parallel('sass')));
 
-gulp.task('babel', () =>
-    gulp.src(jsSrcPath)
+gulp.task('babel', () => gulp.src(jsSrcPath)
         .pipe(babel({
             presets: ['@babel/preset-env']
         }))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest(distPath))
 );
-gulp.task('babel:watch', function () {
-    gulp.watch(jsSrcPath, gulp.series('babel'));
-});
+
+gulp.task('copyhtml', () => gulp.src('./src/index.html').pipe(gulp.dest(distPath)));
+
+gulp.task('babel:watch', () => gulp.watch(jsSrcPath, gulp.parallel('babel')));
+
+gulp.task('build', gulp.parallel('babel', 'sass', 'copyhtml'));
+
