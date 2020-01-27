@@ -1,6 +1,5 @@
 const PLAYER1 = 'fa-circle-o';
 const PLAYER2 = 'fa-times';
-// const newGame = document.querySelector('#button');
 
 let round = 1;
 const board = [
@@ -17,6 +16,11 @@ const combinations = [
 const boxes = [...document.querySelectorAll('.box')];
 boxes.forEach(box => box.addEventListener('click', pick));
 
+function publishResult(winner) {
+    document.querySelector('.score')
+    .textContent = winner;
+}
+
 function pick(event) {
     const { row, column } = event.target.dataset;
     const turn = round % 2 === 0 ? PLAYER2 : PLAYER1;
@@ -24,13 +28,13 @@ function pick(event) {
     event.target.classList.add(turn);
     board[row][column] = turn;
     round++;
-
     console.log(check());
+    publishResult(PLAYER1, PLAYER2, check);
 }
 
 function check() {
     const result = board.reduce((total, row) => total.concat(row));
-    let winner = null;
+    let winner = '';
     let moves = {
         'fa-times': [],
         'fa-circle-o': []
@@ -38,25 +42,14 @@ function check() {
     result.forEach((field, index) => moves[field] ? moves[field].push(index) : null);
     combinations.forEach(combination => {
         if (combination.every(index => moves[PLAYER1].indexOf(index) > -1)) {
-            winner = 'Winner: Player 1';
+            return winner = 'Winner: Player 1';
 
         }
         if (combination.every(index => moves[PLAYER2].indexOf(index) > -1)) {
-             winner = 'Winner: Player 2';
+            return winner = 'Winner: Player 2';
         }
     });
 
     return winner;
-}
 
-function publishResult(PLAYER1, PLAYER2) {
-    document.querySelector('winner')
-    .textContent = PLAYER1;
-    document.querySelector('winner')
-    .textContent = PLAYER2;
 }
-publishResult();
-// const newGameHandler = () => {
-//     
-// }
-// addEventListener('click', newGameHandler);

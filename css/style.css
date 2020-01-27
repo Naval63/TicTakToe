@@ -34,3 +34,15 @@ body {
   color: #222; }
   .box .box:hover {
     background: white; }
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; }
+  .wrapper .button {
+    margin-top: 16px;
+    padding: 8px;
+    cursor: pointer; }
+  .wrapper .score {
+    color: #fff; }

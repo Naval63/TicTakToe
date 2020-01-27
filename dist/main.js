@@ -9,8 +9,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var PLAYER1 = 'fa-circle-o';
-var PLAYER2 = 'fa-times'; // const newGame = document.querySelector('#button');
-
+var PLAYER2 = 'fa-times';
 var round = 1;
 var board = [['', '', ''], ['', '', ''], ['', '', '']];
 var combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
@@ -20,6 +19,10 @@ var boxes = _toConsumableArray(document.querySelectorAll('.box'));
 boxes.forEach(function (box) {
   return box.addEventListener('click', pick);
 });
+
+function publishResult(winner) {
+  document.querySelector('.score').textContent = winner;
+}
 
 function pick(event) {
   var _event$target$dataset = event.target.dataset,
@@ -31,13 +34,14 @@ function pick(event) {
   board[row][column] = turn;
   round++;
   console.log(check());
+  publishResult(PLAYER1, PLAYER2, check);
 }
 
 function check() {
   var result = board.reduce(function (total, row) {
     return total.concat(row);
   });
-  var winner = null;
+  var winner = '';
   var moves = {
     'fa-times': [],
     'fa-circle-o': []
@@ -49,24 +53,14 @@ function check() {
     if (combination.every(function (index) {
       return moves[PLAYER1].indexOf(index) > -1;
     })) {
-      winner = 'Winner: Player 1';
+      return winner = 'Winner: Player 1';
     }
 
     if (combination.every(function (index) {
       return moves[PLAYER2].indexOf(index) > -1;
     })) {
-      winner = 'Winner: Player 2';
+      return winner = 'Winner: Player 2';
     }
   });
   return winner;
 }
-
-function publishResult(PLAYER1, PLAYER2) {
-  document.querySelector('winner').textContent = PLAYER1;
-  document.querySelector('winner').textContent = PLAYER2;
-}
-
-publishResult(); // const newGameHandler = () => {
-//     
-// }
-// addEventListener('click', newGameHandler);
