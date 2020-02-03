@@ -7,12 +7,12 @@ sass.compiler = require('node-sass');
 
 const jsSrcPath = path.resolve(__dirname, 'src/js/**/*.js');
 const distPath = path.resolve(__dirname, 'dist');
-const scssPath = path.resolve(__dirname, 'sass/**/*.scss');
+const scssPath = path.resolve(__dirname, 'src/sass/**/*.scss');
 
 gulp.task('sass', () => {
   return gulp.src(path.resolve(scssPath))
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(path.join(distPath, 'css')));
+    .pipe(gulp.dest(path.join(distPath)));
 });
 
 gulp.task('sass:watch', () => gulp.watch(scssPath, gulp.parallel('sass')));
@@ -27,6 +27,8 @@ gulp.task('babel', () => gulp.src(jsSrcPath)
 gulp.task('copyhtml', () => gulp.src('./src/index.html').pipe(gulp.dest(distPath)));
 
 gulp.task('babel:watch', () => gulp.watch(jsSrcPath, gulp.parallel('babel')));
+
+gulp.task('watch:all', gulp.parallel('sass:watch', 'babel:watch'));
 
 gulp.task('build', gulp.parallel('babel', 'sass', 'copyhtml'));
 
