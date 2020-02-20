@@ -21,7 +21,7 @@ boxes.forEach(function (box) {
 });
 
 function publishResult(winner) {
-  document.querySelector('.score').textContent = winner;
+  document.querySelector('.score').innerText = winner;
 }
 
 function pick(event) {

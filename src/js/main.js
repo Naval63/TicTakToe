@@ -17,8 +17,7 @@ const boxes = [...document.querySelectorAll('.box')];
 boxes.forEach(box => box.addEventListener('click', pick));
 
 function publishResult(winner) {
-    document.querySelector('.score')
-    .textContent = winner;
+    document.querySelector('.score').innerText = winner;
 }
 
 function pick(event) {
